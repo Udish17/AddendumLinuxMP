@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?><ManagementPack ContentReadable="true" SchemaVersion="2.0" OriginalSchemaVersion="1.1" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+  <Manifest>
+    <Identity>
+      <ID>Addendum.Linux.MP</ID>
+      <Version>1.0.0.2</Version>
+    </Identity>
+    <Name>Addendum Linux MP</Name>
+    <References>
+      <Reference Alias="Shell">
+        <ID>Microsoft.Unix.ShellCommand.Library</ID>
+        <Version>10.22.1019.0</Version>
+        <PublicKeyToken>31bf3856ad364e35</PublicKeyToken>
+      </Reference>
+      <Reference Alias="SystemCenter">
+        <ID>Microsoft.SystemCenter.Library</ID>
+        <Version>10.22.10118.0</Version>
+        <PublicKeyToken>31bf3856ad364e35</PublicKeyToken>
+      </Reference>
+      <Reference Alias="Unix">
+        <ID>Microsoft.Unix.Library</ID>
+        <Version>10.22.1019.0</Version>
+        <PublicKeyToken>31bf3856ad364e35</PublicKeyToken>
+      </Reference>
+    </References>
+  </Manifest>
+  <Monitoring>
+    <Tasks>
+      <Task ID="Microsoft.Unix.Restart.Agent.Task" Accessibility="Public" Enabled="true" Target="Unix!Microsoft.Unix.Computer" Timeout="300" Remotable="true">
+        <Category>Custom</Category>
+        <WriteAction ID="SSHCommand" TypeID="Unix!Microsoft.Unix.SSHCommand.WriteAction">
+          <Host>$Target/Property[Type="Unix!Microsoft.Unix.Computer"]/PrincipalName$</Host>
+          <Port>$Target/Property[Type="Unix!Microsoft.Unix.Computer"]/SSHPort$</Port>
+          <UserName>$RunAs[Name="Unix!Microsoft.Unix.AgentMaintenanceAccount"]/UserName$</UserName>
+          <Password>$RunAs[Name="Unix!Microsoft.Unix.AgentMaintenanceAccount"]/Password$</Password>
+          <Command>/opt/microsoft/scx/bin/tools/scxadmin -restart</Command>		  
+          <TimeoutSeconds>40</TimeoutSeconds>
+        </WriteAction>
+      </Task>   
+      <Task ID="Microsoft.Unix.Generic.Agent.Task" Accessibility="Public" Enabled="true" Target="Unix!Microsoft.Unix.Computer" Timeout="300" Remotable="true">
+        <Category>Custom</Category>
+        <WriteAction ID="SSHCommand" TypeID="Unix!Microsoft.Unix.SSHCommand.WriteAction">
+          <Host>$Target/Property[Type="Unix!Microsoft.Unix.Computer"]/PrincipalName$</Host>
+          <Port>$Target/Property[Type="Unix!Microsoft.Unix.Computer"]/SSHPort$</Port>
+          <UserName>$RunAs[Name="Unix!Microsoft.Unix.AgentMaintenanceAccount"]/UserName$</UserName>
+          <Password>$RunAs[Name="Unix!Microsoft.Unix.AgentMaintenanceAccount"]/Password$</Password>
+          <Command></Command>		  
+          <TimeoutSeconds>40</TimeoutSeconds>
+        </WriteAction>
+      </Task>
+    </Tasks>
+  </Monitoring> 
+  <LanguagePacks>
+    <LanguagePack ID="ENU" IsDefault="false">
+      <DisplayStrings>
+        <DisplayString ElementID="Addendum.Linux.MP">
+          <Name>Addendum Linux MP</Name>
+          <Description>This is a custom MP created by Microsoft CSS Support (udmudiar@microsoft.com). This is AS IS and Microsoft provides no warranty.</Description>
+        </DisplayString>        
+        <DisplayString ElementID="Microsoft.Unix.Restart.Agent.Task">
+          <Name>Restart SCX Agent</Name>
+        </DisplayString>
+		<DisplayString ElementID="Microsoft.Unix.Generic.Agent.Task">
+          <Name>Generic Agent Task</Name>
+        </DisplayString>
+      </DisplayStrings>
+    </LanguagePack>
+  </LanguagePacks>
+</ManagementPack>
